@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,500;1,14..32,500&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <title>Aperture — Weather, Framed</title>
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="frame.css">
+    <link rel="stylesheet" href="scene.css">
+    <link rel="stylesheet" href="scrubber.css">
+    <link rel="stylesheet" href="responsive.css">
+</head>
+<body>
+    <div class="window-frame">
+        <div class="frame-chrome"></div>
+        <div class="scene-stage">
+            <div class="sky-layer"></div>
+            <div class="celestial-layer"></div>
+            <div class="cloud-layer"></div>
+            <div class="silhouette-far"></div>
+            <div class="silhouette-mid"></div>
+            <div class="fog-layer"></div>
+            <div class="silhouette-near"></div>
+            <canvas class="particle-canvas"></canvas>
+            <div class="lightning-overlay"></div>
+        </div>
+        <div class="frame-top">
+            <form class="nameplate-search">
+                <input type="text" placeholder="Search city...">
+            </form>
+            <button type="button" class="unit-toggle">°C</button>
+        </div>
+        <div class="scene-readout">
+            <h1 class="temp-display"></h1>
+            <p class="condition-text"></p>
+            <p class="feels-like-text"></p>
+        </div>
+        <div class="time-scrubber-dock">
+            <div class="scrubber-track-hourly"></div>
+            <div class="scrubber-handle"></div>
+            <div class="scrubber-label"></div>
+            <div class="scrubber-track-daily"></div>
+        </div>
+        <div class="windowsill">
+            <dl class="sill-stats"></dl>
+        </div>
+        <div class="mobile-sheet"></div>
+        <div class="loading-state"></div>
+        <div class="error-state"></div>
+    </div>
+</body>
+</html>
