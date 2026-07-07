@@ -7,11 +7,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,500;1,14..32,500&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
     <title>Aperture — Weather, Framed</title>
-    <link rel="stylesheet" href="base.css">
-    <link rel="stylesheet" href="frame.css">
-    <link rel="stylesheet" href="scene.css">
-    <link rel="stylesheet" href="scrubber.css">
-    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/frame.css">
+    <link rel="stylesheet" href="css/scene.css">
+    <link rel="stylesheet" href="css/scrubber.css">
+    <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
     <div class="window-frame">
@@ -34,9 +34,9 @@
             <button type="button" class="unit-toggle">°C</button>
         </div>
         <div class="scene-readout">
-            <h1 class="temp-display"></h1>
-            <p class="condition-text"></p>
-            <p class="feels-like-text"></p>
+            <h1 class="temp-display">72°</h1>
+            <p class="condition-text">Partly Cloudy</p>
+            <p class="feels-like-text">Feels like 75°</p>
         </div>
         <div class="time-scrubber-dock">
             <div class="scrubber-track-hourly"></div>
@@ -45,7 +45,24 @@
             <div class="scrubber-track-daily"></div>
         </div>
         <div class="windowsill">
-            <dl class="sill-stats"></dl>
+            <dl class="sill-stats">
+                <div class="stat-item">
+                    <dt>Humidity</dt>
+                    <dd>--%</dd>
+                </div>
+                <div class="stat-item">
+                    <dt>Wind</dt>
+                    <dd>-- km/h</dd>
+                </div>
+                <div class="stat-item">
+                    <dt>Pressure</dt>
+                    <dd>-- hPa</dd>
+                </div>
+                <div class="stat-item">
+                    <dt>UV Index</dt>
+                    <dd>--</dd>
+                </div>
+            </dl>
         </div>
         <div class="mobile-sheet"></div>
         <div class="loading-state"></div>

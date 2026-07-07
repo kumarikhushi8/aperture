@@ -1,0 +1,32 @@
+.sky-layer {
+  background: linear-gradient(to bottom, #4a90d9 0%, #a8d0e8 100%);
+}
+.silhouette-far {
+  background: linear-gradient(to top, rgba(60, 70, 90, 0.4) 0%, transparent 100%);
+  height: 40%;
+  top: auto; /* override the inset:0 top value so it anchors to bottom instead */
+}
+
+.silhouette-mid {
+  background: linear-gradient(to top, rgba(40, 50, 70, 0.6) 0%, transparent 100%);
+  height: 25%;
+  top: auto;
+}
+
+.silhouette-near {
+  background: linear-gradient(to top, rgba(20, 25, 35, 0.8) 0%, transparent 100%);
+  height: 15%;
+  top: auto;
+}
+
+.windowsill {
+  background: rgba(26, 26, 26, 0.25);
+  border-top: 1px solid rgba(245, 242, 234, 0.15);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px); /* very subtle, not glassmorphism-heavy — just a slight scene-blur behind text for legibility */
+}
+
+.time-scrubber-dock {
+  background: rgba(26, 26, 26, 0.25);
+  border-left: 1px solid rgba(245, 242, 234, 0.15);
+}
