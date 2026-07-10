@@ -14,7 +14,7 @@ function resolveCityAlias(cityName) {
 
 async function getCoordinates(cityName) {
   const resolvedName = resolveCityAlias(cityName);
-  const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityName)}&count=5&language=en&format=json`;
+  const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(resolvedName)}&count=5&language=en&format=json`;
 
   let response;
   try {
@@ -33,8 +33,6 @@ async function getCoordinates(cityName) {
     throw new Error("CITY_NOT_FOUND");
   }
 
-  // Pick the result with the highest population, since the "first" match
-  // isn't always the most prominent/well-known place with that name
   const bestMatch = data.results.reduce((best, current) => {
     const bestPop = best.population || 0;
     const currentPop = current.population || 0;
