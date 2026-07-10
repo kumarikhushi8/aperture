@@ -58,3 +58,31 @@ function getTimePhase(currentTime, sunrise, sunset, nextSunrise) {
   // Anything left is either late night after sunset, or early morning before tomorrow's sunrise
   return "deep-night";
 }
+
+function getCelestialPosition(progress) {
+  // progress: 0 to 1, representing how far through daylight (or night) we are
+  const path = document.getElementById('sun-moon-arc');
+  const pathLength = path.getTotalLength();
+  const point = path.getPointAtLength(progress * pathLength);
+  
+  return { x: point.x, y: point.y }; // these are in the SVG's viewBox coordinate units (0-100)
+}
+
+function getCelestialProgress(currentTime, sunrise, sunset, nextSunrise) {
+  const now = new Date(currentTime).getTime();
+  const sunriseTime = new Date(sunrise).getTime();
+  const sunsetTime = new Date(sunset).getTime();
+  const nextSunriseTime = new Date(nextSunrise).getTime();
+
+  if (now >= sunriseTime && now <= sunsetTime) {
+    // Daytime: progress through the sun's arc, sunrise -> sunset
+    const dayLength = sunsetTime - sunriseTime;
+    const elapsed = now - sunriseTime;
+    return { progress: elapsed / dayLength, isDaytime: true };
+  } else {
+    // Nighttime: progress through the moon's arc, sunset -> next sunrise
+    const nightLength = nextSunriseTime - sunsetTime;
+    const elapsed = now - sunsetTime;
+    return { progress: elapsed / nightLength, isDaytime: false };
+  }
+}

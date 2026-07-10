@@ -81,3 +81,122 @@
   background: rgba(26, 26, 26, 0.25);
   border-left: 1px solid rgba(245, 242, 234, 0.15);
 }
+
+.sun, .moon {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 1.5s ease, left 2s ease, top 2s ease;
+}
+
+.sun {
+  background: radial-gradient(circle, #fff4d6 0%, #ffd166 60%, #ffb347 100%);
+  box-shadow: 0 0 40px rgba(255, 209, 102, 0.6);
+}
+
+.moon {
+  background: radial-gradient(circle, #f0f0f5 0%, #d8d8e8 100%);
+  box-shadow: 0 0 25px rgba(240, 240, 245, 0.4);
+}
+
+/* Show sun during dawn/day/dusk */
+.scene-stage[data-phase="dawn"] .sun,
+.scene-stage[data-phase="day"] .sun,
+.scene-stage[data-phase="dusk"] .sun {
+  opacity: 1;
+}
+
+/* Show moon during night/deep-night */
+.scene-stage[data-phase="night"] .moon,
+.scene-stage[data-phase="deep-night"] .moon {
+  opacity: 1;
+}
+
+/* Hide both under heavy weather (occluded by clouds) */
+.scene-stage[data-weather="overcast"] .sun,
+.scene-stage[data-weather="overcast"] .moon,
+.scene-stage[data-weather="rain"] .sun,
+.scene-stage[data-weather="rain"] .moon,
+.scene-stage[data-weather="thunderstorm"] .sun,
+.scene-stage[data-weather="thunderstorm"] .moon,
+.scene-stage[data-weather="fog"] .sun,
+.scene-stage[data-weather="fog"] .moon {
+  opacity: 0.15; /* dimmed, not fully invisible — suggests it's there but obscured */
+}
+
+.celestial-path {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible; /* so the curve isn't clipped even though it goes above viewBox */
+}
+
+.cloud {
+  position: absolute;
+  width: 100px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 100px;
+  box-shadow:
+    30px -15px 0 -5px rgba(255, 255, 255, 0.85),
+    -30px -10px 0 -8px rgba(255, 255, 255, 0.85),
+    50px 5px 0 -10px rgba(255, 255, 255, 0.7);
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+.cloud-1 {
+  top: 15%;
+  left: -10%;
+  transform: scale(1.2);
+  animation: drift-slow 90s linear infinite;
+}
+
+.cloud-2 {
+  top: 25%;
+  left: -20%;
+  transform: scale(0.8);
+  animation: drift-medium 70s linear infinite;
+  animation-delay: -20s; /* offsets its starting position in the loop, so clouds don't move in sync */
+}
+
+.cloud-3 {
+  top: 8%;
+  left: -15%;
+  transform: scale(1.5);
+  opacity: 0; /* this one only appears for denser weather (overcast/rain) — see below */
+  animation: drift-slow 110s linear infinite;
+  animation-delay: -50s;
+}
+@keyframes drift-slow {
+  from { transform: translateX(0) scale(1.2); }
+  to { transform: translateX(140vw) scale(1.2); }
+}
+
+@keyframes drift-medium {
+  from { transform: translateX(0) scale(0.8); }
+  to { transform: translateX(140vw) scale(0.8); }
+}
+
+/* Clear: no clouds */
+.scene-stage[data-weather="clear"] .cloud {
+  opacity: 0;
+}
+
+/* Partly cloudy: light clouds, cloud-1 and cloud-2 only */
+.scene-stage[data-weather="partly-cloudy"] .cloud-1,
+.scene-stage[data-weather="partly-cloudy"] .cloud-2 {
+  opacity: 0.9;
+}
+
+/* Overcast / Rain / Thunderstorm / Snow: full dense cloud cover, all three */
+.scene-stage[data-weather="overcast"] .cloud,
+.scene-stage[data-weather="rain"] .cloud,
+.scene-stage[data-weather="thunderstorm"] .cloud,
+.scene-stage[data-weather="snow"] .cloud,
+.scene-stage[data-weather="drizzle"] .cloud {
+  opacity: 1;
+  filter: brightness(0.6); /* darker, stormier-looking clouds */
+}

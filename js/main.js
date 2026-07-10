@@ -5,6 +5,8 @@ const statHumidity = document.querySelector('.stat-humidity');
 const statWind = document.querySelector('.stat-wind');
 const statPressure = document.querySelector('.stat-pressure');
 const statUV = document.querySelector('.stat-uv');
+const sunElement = document.querySelector('.sun');
+const moonElement = document.querySelector('.moon');
 
 
 const searchForm = document.querySelector('.nameplate-search');
@@ -17,19 +19,28 @@ searchForm.addEventListener('submit', async (event) => {
   
   if (!cityName) return; // guard clause: don't bother fetching if the input is empty
   
-  try {
+try {
   const location = await getCoordinates(cityName);
   const weather = await getWeather(location.latitude, location.longitude);
   const weatherInfo = getWeatherInfo(weather.current.weather_code);
   const timePhase = getTimePhase(
-  weather.current.time,
-  weather.daily.sunrise[0],
-  weather.daily.sunset[0],
-  weather.daily.sunrise[1] // tomorrow's sunrise
-);
+    weather.current.time,
+    weather.daily.sunrise[0],
+    weather.daily.sunset[0],
+    weather.daily.sunrise[1]
+  );
+
+  const celestialData = getCelestialProgress(
+    weather.current.time,
+    weather.daily.sunrise[0],
+    weather.daily.sunset[0],
+    weather.daily.sunrise[1]
+  );
 
   updateDisplay(weather, location.name);
   applySceneState(weatherInfo, timePhase);
+  updateCelestialPosition(celestialData);
+
 } catch (error) {
   console.error('Something went wrong:', error.message);
 }
@@ -54,4 +65,12 @@ function applySceneState(weatherInfo, timePhase) {
   const sceneStage = document.querySelector('.scene-stage');
   sceneStage.dataset.weather = weatherInfo.category;
   sceneStage.dataset.phase = timePhase;
+}
+
+function updateCelestialPosition(celestialData) {
+  const position = getCelestialPosition(celestialData.progress);
+  const activeElement = celestialData.isDaytime ? sunElement : moonElement;
+
+  activeElement.style.left = `${position.x}%`;
+  activeElement.style.top = `${position.y}%`;
 }

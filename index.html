@@ -18,8 +18,18 @@
         <div class="frame-chrome"></div>
         <div class="scene-stage">
             <div class="sky-layer"></div>
-            <div class="celestial-layer"></div>
-            <div class="cloud-layer"></div>
+            <div class="celestial-layer">
+                <svg class="celestial-path" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <path id="sun-moon-arc" d="M 5,90 Q 50,-10 95,90" fill="none" stroke="none" />
+                </svg>
+                <div class="sun"></div>
+                <div class="moon"></div>
+            </div>
+            <div class="cloud-layer">
+                <div class="cloud cloud-1"></div>
+                <div class="cloud cloud-2"></div>
+                <div class="cloud cloud-3"></div>
+            </div>
             <div class="silhouette-far"></div>
             <div class="silhouette-mid"></div>
             <div class="fog-layer"></div>
