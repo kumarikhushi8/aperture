@@ -1,16 +1,29 @@
+const CITY_ALIASES = {
+  "bangalore": "Bengaluru",
+  "bombay": "Mumbai",
+  "madras": "Chennai",
+  "calcutta": "Kolkata",
+  "poona": "Pune",
+  "cochin": "Kochi"
+};
+
+function resolveCityAlias(cityName) {
+  const normalized = cityName.trim().toLowerCase();
+  return CITY_ALIASES[normalized] || cityName;
+}
+
 async function getCoordinates(cityName) {
+  const resolvedName = resolveCityAlias(cityName);
   const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityName)}&count=5&language=en&format=json`;
 
   let response;
   try {
     response = await fetch(url);
   } catch (networkError) {
-    // fetch() itself only throws on true network failures (offline, DNS failure, CORS block, etc.)
     throw new Error("NETWORK_ERROR");
   }
 
   if (!response.ok) {
-    // response came back, but with a bad HTTP status (rare for this API, but good practice)
     throw new Error("API_ERROR");
   }
 
@@ -20,7 +33,15 @@ async function getCoordinates(cityName) {
     throw new Error("CITY_NOT_FOUND");
   }
 
-  return data.results[0];
+  // Pick the result with the highest population, since the "first" match
+  // isn't always the most prominent/well-known place with that name
+  const bestMatch = data.results.reduce((best, current) => {
+    const bestPop = best.population || 0;
+    const currentPop = current.population || 0;
+    return currentPop > bestPop ? current : best;
+  });
+
+  return bestMatch;
 }
 
 async function getWeather(latitude, longitude) {

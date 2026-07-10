@@ -37,8 +37,12 @@ try {
     weather.daily.sunrise[1]
   );
 
+const terrainType = getTerrainType(location.population);
+console.log('Location:', location.name, '| Population:', location.population, '| Terrain:', terrainType);
+    applySceneState(weatherInfo, timePhase, terrainType);
+
   updateDisplay(weather, location.name);
-  applySceneState(weatherInfo, timePhase);
+  applySceneState(weatherInfo, timePhase, terrainType);
   updateCelestialPosition(celestialData);
 
 } catch (error) {
@@ -61,10 +65,11 @@ function updateDisplay(weather, locationName) {
   statUV.textContent = current.uv_index !== undefined ? current.uv_index.toFixed(1) : '--';
 }
 
-function applySceneState(weatherInfo, timePhase) {
+function applySceneState(weatherInfo, timePhase, terrainType) {
   const sceneStage = document.querySelector('.scene-stage');
   sceneStage.dataset.weather = weatherInfo.category;
   sceneStage.dataset.phase = timePhase;
+  sceneStage.dataset.terrain = terrainType;
 }
 
 function updateCelestialPosition(celestialData) {

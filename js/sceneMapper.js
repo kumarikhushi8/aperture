@@ -86,3 +86,7 @@ function getCelestialProgress(currentTime, sunrise, sunset, nextSunrise) {
     return { progress: elapsed / nightLength, isDaytime: false };
   }
 }
+
+function getTerrainType(population) {
+  return population > 200000 ? "urban" : "rural";
+}

@@ -52,24 +52,6 @@
   opacity: 0.55;
 }
 
-.silhouette-far {
-  background: linear-gradient(to top, rgba(60, 70, 90, 0.4) 0%, transparent 100%);
-  height: 40%;
-  top: auto; /* override the inset:0 top value so it anchors to bottom instead */
-}
-
-.silhouette-mid {
-  background: linear-gradient(to top, rgba(40, 50, 70, 0.6) 0%, transparent 100%);
-  height: 25%;
-  top: auto;
-}
-
-.silhouette-near {
-  background: linear-gradient(to top, rgba(20, 25, 35, 0.8) 0%, transparent 100%);
-  height: 15%;
-  top: auto;
-}
-
 .windowsill {
   background: rgba(26, 26, 26, 0.25);
   border-top: 1px solid rgba(245, 242, 234, 0.15);
@@ -94,11 +76,13 @@
 .sun {
   background: radial-gradient(circle, #fff4d6 0%, #ffd166 60%, #ffb347 100%);
   box-shadow: 0 0 40px rgba(255, 209, 102, 0.6);
+  opacity: 0; /* initially hidden, will fade in based on time of day */
 }
 
 .moon {
   background: radial-gradient(circle, #f0f0f5 0%, #d8d8e8 100%);
   box-shadow: 0 0 25px rgba(240, 240, 245, 0.4);
+  opacity: 0; /* initially hidden, will fade in based on time of day */
 }
 
 /* Show sun during dawn/day/dusk */
@@ -112,18 +96,6 @@
 .scene-stage[data-phase="night"] .moon,
 .scene-stage[data-phase="deep-night"] .moon {
   opacity: 1;
-}
-
-/* Hide both under heavy weather (occluded by clouds) */
-.scene-stage[data-weather="overcast"] .sun,
-.scene-stage[data-weather="overcast"] .moon,
-.scene-stage[data-weather="rain"] .sun,
-.scene-stage[data-weather="rain"] .moon,
-.scene-stage[data-weather="thunderstorm"] .sun,
-.scene-stage[data-weather="thunderstorm"] .moon,
-.scene-stage[data-weather="fog"] .sun,
-.scene-stage[data-weather="fog"] .moon {
-  opacity: 0.15; /* dimmed, not fully invisible — suggests it's there but obscured */
 }
 
 .celestial-path {
@@ -200,3 +172,57 @@
   opacity: 1;
   filter: brightness(0.6); /* darker, stormier-looking clouds */
 }
+.scene-stage[data-weather="overcast"] .sun,
+.scene-stage[data-weather="overcast"] .moon,
+.scene-stage[data-weather="rain"] .sun,
+.scene-stage[data-weather="rain"] .moon,
+.scene-stage[data-weather="thunderstorm"] .sun,
+.scene-stage[data-weather="thunderstorm"] .moon,
+.scene-stage[data-weather="fog"] .sun,
+.scene-stage[data-weather="fog"] .moon,
+.scene-stage[data-weather="drizzle"] .sun,
+.scene-stage[data-weather="drizzle"] .moon,
+.scene-stage[data-weather="snow"] .sun,
+.scene-stage[data-weather="snow"] .moon {
+  opacity: 0.15;
+}
+
+.silhouette-far, .silhouette-mid, .silhouette-near {
+  top: auto;
+  overflow: visible;
+}
+
+.silhouette-far { height: 40%; }
+.silhouette-mid { height: 28%; }
+.silhouette-near { height: 16%; }
+
+.silhouette-svg {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  transition: fill 1.5s ease, opacity 1.5s ease;
+}
+
+/* Show the correct terrain variant based on data-terrain */
+.scene-stage[data-terrain="rural"] .silhouette-rural,
+.scene-stage[data-terrain="urban"] .silhouette-urban {
+  display: block;
+}
+
+/* Base fill colors per depth layer (day default) */
+.silhouette-far .silhouette-svg { fill: rgba(70, 85, 110, 0.5); }
+.silhouette-mid .silhouette-svg { fill: rgba(45, 58, 80, 0.7); }
+.silhouette-near .silhouette-svg { fill: rgba(20, 28, 42, 0.9); }
+
+/* Night: flatter, darker silhouettes */
+.scene-stage[data-phase="night"] .silhouette-svg,
+.scene-stage[data-phase="deep-night"] .silhouette-svg {
+  fill: rgba(5, 8, 15, 0.95);
+}
+
+/* Dusk: warm rim-lit tone */
+.scene-stage[data-phase="dusk"] .silhouette-far .silhouette-svg { fill: rgba(90, 60, 70, 0.6); }
+.scene-stage[data-phase="dusk"] .silhouette-mid .silhouette-svg { fill: rgba(60, 40, 55, 0.75); }
+.scene-stage[data-phase="dusk"] .silhouette-near .silhouette-svg { fill: rgba(30, 20, 35, 0.9); }
