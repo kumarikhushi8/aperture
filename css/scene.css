@@ -1,6 +1,57 @@
-.sky-layer {
+/* Remove or comment out your old static .sky-layer background rule */
+.scene-stage[data-phase="dawn"] .sky-layer {
+  background: linear-gradient(to bottom, #2c2a4a 0%, #f5a623 40%, #fcd9a8 100%);
+}
+
+.scene-stage[data-phase="day"] .sky-layer {
   background: linear-gradient(to bottom, #4a90d9 0%, #a8d0e8 100%);
 }
+
+.scene-stage[data-phase="dusk"] .sky-layer {
+  background: linear-gradient(to bottom, #1a1a3e 0%, #d9622e 45%, #f0a868 100%);
+}
+
+.scene-stage[data-phase="night"] .sky-layer {
+  background: linear-gradient(to bottom, #0d0d24 0%, #1e2347 100%);
+}
+
+.scene-stage[data-phase="deep-night"] .sky-layer {
+  background: linear-gradient(to bottom, #050510 0%, #12142c 100%);
+}
+.sky-layer {
+  transition: background 1.5s ease;
+}
+
+.sky-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transition: opacity 1.5s ease, background 1.5s ease;
+  opacity: 0;
+}
+
+.scene-stage[data-weather="overcast"] .sky-layer::after,
+.scene-stage[data-weather="rain"] .sky-layer::after,
+.scene-stage[data-weather="thunderstorm"] .sky-layer::after {
+  background: #2a2e3a;
+  opacity: 0.45;
+}
+
+.scene-stage[data-weather="drizzle"] .sky-layer::after {
+  background: #3a3e4a;
+  opacity: 0.3;
+}
+
+.scene-stage[data-weather="snow"] .sky-layer::after {
+  background: #c8d4e0;
+  opacity: 0.2;
+}
+
+.scene-stage[data-weather="fog"] .sky-layer::after {
+  background: #b0b0b0;
+  opacity: 0.55;
+}
+
 .silhouette-far {
   background: linear-gradient(to top, rgba(60, 70, 90, 0.4) 0%, transparent 100%);
   height: 40%;

@@ -33,13 +33,15 @@ function getWeatherInfo(code) {
   return WEATHER_CODE_MAP[code] || { label: "Unknown", category: "clear" };
 }
 
-function getTimePhase(currentTime, sunrise, sunset) {
+function getTimePhase(currentTime, sunrise, sunset, nextSunrise) {
   const now = new Date(currentTime).getTime();
   const sunriseTime = new Date(sunrise).getTime();
   const sunsetTime = new Date(sunset).getTime();
+  const nextSunriseTime = new Date(nextSunrise).getTime();
 
   const THIRTY_MIN = 30 * 60 * 1000;
   const NINETY_MIN = 90 * 60 * 1000;
+  const FOUR_HOURS = 4 * 60 * 60 * 1000;
 
   if (now >= sunriseTime - THIRTY_MIN && now <= sunriseTime + THIRTY_MIN) {
     return "dawn";
@@ -50,12 +52,9 @@ function getTimePhase(currentTime, sunrise, sunset) {
   if (now >= sunsetTime - NINETY_MIN && now <= sunsetTime + THIRTY_MIN) {
     return "dusk";
   }
-  
-  // Everything else is night — but we need to split night vs deep-night
-  // Night: sunset+30min until midnight-ish
-  // Deep-night: midnight until dawn-30min
-  // Think about: how do you distinguish "just after sunset" from "3am"?
-  // Hint: compare against midnight, or a fixed number of hours after sunset
-  
-  return "night"; // placeholder — you'll refine this below
+  if (now > sunsetTime + THIRTY_MIN && now < sunsetTime + FOUR_HOURS) {
+    return "night";
+  }
+  // Anything left is either late night after sunset, or early morning before tomorrow's sunrise
+  return "deep-night";
 }
