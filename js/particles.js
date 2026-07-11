@@ -107,3 +107,30 @@ function animateParticles() {
 initRain(150);
 initSnow(120);
 animateParticles();
+
+
+let lightningTimeout = null;
+
+function scheduleLightning() {
+  const sceneStage = document.querySelector('.scene-stage');
+  
+  if (sceneStage.dataset.weather !== 'thunderstorm') {
+    lightningTimeout = setTimeout(scheduleLightning, 3000);
+    return;
+  }
+
+  const lightningOverlay = document.querySelector('.lightning-overlay');
+  
+  lightningOverlay.classList.add('flash');
+  setTimeout(() => lightningOverlay.classList.remove('flash'), 150);
+
+  if (Math.random() < 0.5) {
+    sceneStage.classList.add('shake');
+    setTimeout(() => sceneStage.classList.remove('shake'), 300);
+  }
+
+  const nextFlashDelay = 8000 + Math.random() * 12000; // 8-20 seconds
+  lightningTimeout = setTimeout(scheduleLightning, nextFlashDelay);
+}
+
+scheduleLightning();

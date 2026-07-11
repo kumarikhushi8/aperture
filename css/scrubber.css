@@ -1,0 +1,68 @@
+.scrubber-track-hourly {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--space-4) 0;
+}
+
+.scrubber-tick {
+  width: 12px;
+  height: 2px;
+  background: rgba(245, 242, 234, 0.3);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.scrubber-tick.major {
+  width: 20px;
+  background: rgba(245, 242, 234, 0.6);
+}
+
+.scrubber-handle {
+  position: absolute;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  box-shadow: 0 0 12px rgba(217, 148, 74, 0.6);
+  z-index: 10;
+}
+
+.scrubber-handle:active {
+  cursor: grabbing;
+}
+
+.scrubber-label {
+  position: absolute;
+  right: 100%;
+  margin-right: var(--space-3);
+  white-space: nowrap;
+  background: rgba(26, 26, 26, 0.85);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  color: var(--color-chrome-light);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.scrubber-label.visible {
+  opacity: 1;
+}
+
+.scrubber-track-daily {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-top: 1px solid rgba(245, 242, 234, 0.15);
+  padding-top: var(--space-3);
+}

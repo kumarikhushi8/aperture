@@ -44,6 +44,10 @@ console.log('Location:', location.name, '| Population:', location.population, '|
   updateDisplay(weather, location.name);
   applySceneState(weatherInfo, timePhase, terrainType);
   updateCelestialPosition(celestialData);
+  generateHourlyTicks(weather.hourly.time);
+  generateHourlyTicks(weather.hourly.time);
+  positionHandleAtNow(weather.hourly.time, weather.current.time);
+  currentHourlyData = weather.hourly; // store for drag calculations later
 
 } catch (error) {
   console.error('Something went wrong:', error.message);
